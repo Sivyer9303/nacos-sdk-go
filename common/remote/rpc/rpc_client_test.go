@@ -84,3 +84,92 @@ func TestGetMaxCallRecvMsgSize(t *testing.T) {
 		assert.Equal(t, size, 20971520)
 	})
 }
+
+//func TestCreateNewConnection(t *testing.T) {
+//	go startLocalServer()
+//	//create ServerConfig
+//	sc := []constant.ServerConfig{
+//		*constant.NewServerConfig("127.0.0.1", 8848, constant.WithContextPath("/nacos")),
+//	}
+//
+//	//create ClientConfig
+//	cc := *constant.NewClientConfig(
+//		constant.WithNamespaceId(""),
+//		constant.WithTimeoutMs(5000),
+//		constant.WithNotLoadCacheAtStart(true),
+//		constant.WithLogDir("/tmp/nacos/log"),
+//		constant.WithCacheDir("/tmp/nacos/cache"),
+//		constant.WithLogLevel("debug"),
+//	)
+//	server, err := nacos_server.NewNacosServer(sc, cc, &http_agent.HttpAgent{}, 600, "localhost:8848")
+//	if err != nil {
+//		t.Fatal(" create nacos server fail")
+//	}
+//	client := NewGrpcClient("testClient", server)
+//	serverInfo := ServerInfo{
+//		serverIp:   "localhost",
+//		serverPort: 8848,
+//	}
+//	connection, err := client.createNewConnection(serverInfo)
+//	if err != nil {
+//		t.Fatal("create connection fail")
+//	}
+//	assert.NotNil(t, connection)
+//}
+//
+//func TestGrpcClient_connectToServer(t *testing.T) {
+//	go startLocalServer()
+//	//create ServerConfig
+//	sc := []constant.ServerConfig{
+//		*constant.NewServerConfig("127.0.0.1", 8848, constant.WithContextPath("/nacos")),
+//	}
+//
+//	//create ClientConfig
+//	cc := *constant.NewClientConfig(
+//		constant.WithNamespaceId(""),
+//		constant.WithTimeoutMs(5000),
+//		constant.WithNotLoadCacheAtStart(true),
+//		constant.WithLogDir("/tmp/nacos/log"),
+//		constant.WithCacheDir("/tmp/nacos/cache"),
+//		constant.WithLogLevel("debug"),
+//	)
+//	server, err := nacos_server.NewNacosServer(sc, cc, &http_agent.HttpAgent{}, 600, "localhost:8848")
+//	if err != nil {
+//		t.Fatal("start fail")
+//	}
+//	client := NewGrpcClient("test", server)
+//	response, err := client.Request(rpc_request.NewHealthCheckRequest(), 600)
+//	if err != nil {
+//		t.Fatal("request fail")
+//	}
+//	fmt.Println(response)
+//}
+//
+//type implRequestServer struct {
+//	*pb.UnimplementedRequestServer
+//}
+//
+//// response the same payload
+//func (rs *implRequestServer) Request(ct context.Context, pl *pb.Payload) (*pb.Payload, error) {
+//	select {
+//	case <-ct.Done():
+//		return pl, errors.New("context is done")
+//	default:
+//		return pl, nil
+//	}
+//}
+//
+//// start up local grpc server
+//func startLocalServer() {
+//	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 8848))
+//	if err != nil {
+//		log.Fatalf("failed to listen: %v", err)
+//	}
+//
+//	s := grpc.NewServer()
+//	pb.RegisterRequestServer(s, &implRequestServer{})
+//	log.Printf("server listening at %v", lis.Addr())
+//	if err := s.Serve(lis); err != nil {
+//		log.Fatalf("failed to serve: %v", err)
+//	}
+//}
